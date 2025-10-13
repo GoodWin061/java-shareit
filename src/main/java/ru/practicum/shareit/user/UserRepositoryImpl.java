@@ -20,7 +20,6 @@ public class UserRepositoryImpl implements UserRepository {
             Long userId = getNextId();
             user.setId(userId);
         }
-
         users.put(user.getId(), user);
         return user;
     }
