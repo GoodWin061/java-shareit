@@ -17,12 +17,9 @@ public class ErrorHandler {
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNotFound(final NotFoundException e) {return new ErrorResponse(e.getMessage());
-    }
+    public ErrorResponse handleNotFound(final NotFoundException e) {return new ErrorResponse(e.getMessage()); }
 
     @ExceptionHandler(ForbiddenException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ErrorResponse handleForbidden(final ForbiddenException e) {
-        return new ErrorResponse(e.getMessage());
-    }
+    public ErrorResponse handleForbidden(final ForbiddenException e) {return new ErrorResponse(e.getMessage()); }
 }
