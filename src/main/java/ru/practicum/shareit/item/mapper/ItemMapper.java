@@ -17,7 +17,7 @@ public interface ItemMapper {
     @Mapping(target = "owner", expression = "java(item.getOwner() != null ? item.getOwner().getName() : null)")
     @Mapping(target = "requestId", expression = "java(item.getRequest() != null ? item.getRequest().getId() : null)")
     ItemDto mapToItemDto(Item item);
-    
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "request", ignore = true)
     @Mapping(target = "name", source = "newItemDto.name")
@@ -25,7 +25,7 @@ public interface ItemMapper {
     @Mapping(target = "available", source = "newItemDto.available")
     @Mapping(target = "owner", source = "user")
     Item mapToItem(NewItemDto newItemDto, User user);
-    
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", source = "newItemDto.name")
     @Mapping(target = "description", source = "newItemDto.description")
@@ -33,7 +33,7 @@ public interface ItemMapper {
     @Mapping(target = "owner", source = "user")
     @Mapping(target = "request", source = "itemRequest")
     Item mapToItem(NewItemDto newItemDto, User user, ItemRequest itemRequest);
-    
+
     default Item updateItemFields(@MappingTarget Item item, UpdateItemDto request) {
         if (request.hasName()) {
             item.setName(request.getName());
@@ -41,7 +41,7 @@ public interface ItemMapper {
         if (request.hasDescription()) {
             item.setDescription(request.getDescription());
         }
-        if (request.hasAvailable()) { 
+        if (request.hasAvailable()) {
             item.setAvailable(request.getAvailable());
         }
         return item;
