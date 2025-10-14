@@ -7,6 +7,7 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.NewItemDto;
 import ru.practicum.shareit.item.dto.UpdateItemDto;
 import ru.practicum.shareit.item.mapper.ItemMapper;
+import static ru.practicum.shareit.constants.HttpHeaders.SHARER_USER_ID;
 
 import java.util.List;
 
@@ -19,39 +20,40 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
+    private final ItemMapper itemMapper;
 
     @PostMapping
     public ItemDto createItem(@Valid @RequestBody NewItemDto newItemDto,
-                              @RequestHeader("X-Sharer-User-Id") Long userId) {
-        return ItemMapper.toItemDto(itemService.createItem(newItemDto, userId));
+                              @RequestHeader(SHARER_USER_ID) Long userId) {
+        return itemMapper.mapToItemDto(itemService.createItem(newItemDto, userId));
     }
 
     @PatchMapping("/{itemId}")
     public ItemDto updateItem(@PathVariable Long itemId,
                               @RequestBody UpdateItemDto updateItemDto,
-                              @RequestHeader("X-Sharer-User-Id") Long userId) {
-        return ItemMapper.toItemDto(itemService.updateItem(itemId, updateItemDto, userId));
+                              @RequestHeader(SHARER_USER_ID) Long userId) {
+        return itemMapper.mapToItemDto(itemService.updateItem(itemId, updateItemDto, userId));
     }
 
     @GetMapping("/{itemId}")
     public ItemDto getItem(@PathVariable Long itemId) {
-        return ItemMapper.toItemDto(itemService.getItem(itemId));
+        return itemMapper.mapToItemDto(itemService.getItem(itemId));
     }
 
     @GetMapping
-    public List<ItemDto> getItems(@RequestHeader("X-Sharer-User-Id") Long userId) {
+    public List<ItemDto> getItems(@RequestHeader(SHARER_USER_ID) Long userId) {
         return itemService.getItemsByUser(userId).stream()
-                .map(ItemMapper::toItemDto)
+                .map(itemMapper::mapToItemDto)
                 .toList();
     }
 
     @GetMapping("/search")
     public List<ItemDto> searchItems(@RequestParam String text) {
         if (text == null || text.trim().isEmpty()) {
-            return List.of(); // Пустой результат, если текст пустой
+            return List.of();
         }
         return itemService.searchItems(text).stream()
-                .map(ItemMapper::toItemDto)
+                .map(itemMapper::mapToItemDto)
                 .toList();
     }
 }

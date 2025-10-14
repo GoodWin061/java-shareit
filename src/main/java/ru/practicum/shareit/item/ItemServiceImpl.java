@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class ItemServiceImpl implements ItemService {
 
     private final UserService userService;
+    private final ItemMapper itemMapper;
 
     private final Map<Long, Item> items = new ConcurrentHashMap<>();
     private final AtomicLong nextId = new AtomicLong(1);
@@ -32,7 +33,7 @@ public class ItemServiceImpl implements ItemService {
     public Item createItem(NewItemDto newItemDto, Long userId) {
         UserDto userDto = userService.getUserById(userId);
         User user = UserMapper.fromDto(userDto);
-        Item item = ItemMapper.toItem(newItemDto, user);
+        Item item = itemMapper.mapToItem(newItemDto, user);
         item.setId(nextId.getAndIncrement());
         items.put(item.getId(), item);
         return item;
@@ -47,7 +48,7 @@ public class ItemServiceImpl implements ItemService {
         if (!item.getOwner().getId().equals(userId)) {
             throw new ForbiddenException("Only owner can update item");
         }
-        Item updatedItem = ItemMapper.updateItemFields(item, updateItemDto);
+        Item updatedItem = itemMapper.updateItemFields(item, updateItemDto);
         items.put(itemId, updatedItem);
         return updatedItem;
     }
