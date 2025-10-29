@@ -1,50 +1,35 @@
 package ru.practicum.shareit.item.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.dto.NewItemDto;
-import ru.practicum.shareit.item.dto.UpdateItemDto;
+import ru.practicum.shareit.item.dto.ItemWithBookingsDto;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.request.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring")
 public interface ItemMapper {
 
-    @Mapping(target = "owner", expression = "java(item.getOwner() != null ? item.getOwner().getName() : null)")
-    @Mapping(target = "requestId", expression = "java(item.getRequest() != null ? item.getRequest().getId() : null)")
-    ItemDto mapToItemDto(Item item);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", source = "dto.name")
+    @Mapping(target = "description", source = "dto.description")
+    @Mapping(target = "available", source = "dto.available")
+    @Mapping(target = "owner", source = "owner")
+    Item toItem(ItemDto dto, User owner);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "request", ignore = true)
-    @Mapping(target = "name", source = "newItemDto.name")
-    @Mapping(target = "description", source = "newItemDto.description")
-    @Mapping(target = "available", source = "newItemDto.available")
-    @Mapping(target = "owner", source = "user")
-    Item mapToItem(NewItemDto newItemDto, User user);
+    Item toEntity(ItemDto itemDto);
 
+    ItemDto toItemDto(Item item);
+
+    @Mapping(target = "lastBooking", ignore = true)
+    @Mapping(target = "nextBooking", ignore = true)
+    @Mapping(target = "comments", ignore = true)
+    @Mapping(target = "requestId", source = "requestId", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    ItemWithBookingsDto toItemWithBookingsDto(Item item);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "name", source = "newItemDto.name")
-    @Mapping(target = "description", source = "newItemDto.description")
-    @Mapping(target = "available", source = "newItemDto.available")
-    @Mapping(target = "owner", source = "user")
-    @Mapping(target = "request", source = "itemRequest")
-    Item mapToItem(NewItemDto newItemDto, User user, ItemRequest itemRequest);
-
-    default Item updateItemFields(@MappingTarget Item item, UpdateItemDto request) {
-        if (request.hasName()) {
-            item.setName(request.getName());
-        }
-        if (request.hasDescription()) {
-            item.setDescription(request.getDescription());
-        }
-        if (request.hasAvailable()) {
-            item.setAvailable(request.getAvailable());
-        }
-        return item;
-    }
+    @Mapping(target = "owner", ignore = true)
+    @Mapping(target = "requestId", ignore = true)
+    void updateItemFromDto(ItemDto dto, @MappingTarget Item item);
 }
-
