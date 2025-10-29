@@ -18,7 +18,6 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
-import org.springframework.context.annotation.Profile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -177,10 +176,6 @@ public class BookingServiceIml implements BookingService {
         if (bookingDto.getStart().isAfter(bookingDto.getEnd())) {
             throw new IllegalArgumentException("Дата начала не может быть позже даты окончания");
         }
-
-      /*  if (bookingDto.getStart().isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Дата начала должна быть в будущем");
-        }*/
 
         if (bookingDto.getEnd().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Дата окончания должна быть в будущем");
