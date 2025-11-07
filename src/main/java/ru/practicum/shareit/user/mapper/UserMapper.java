@@ -1,44 +1,20 @@
 package ru.practicum.shareit.user.mapper;
 
+import org.mapstruct.*;
 import ru.practicum.shareit.user.dto.NewUserDto;
 import ru.practicum.shareit.user.dto.UpdateUserDto;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 
-public class UserMapper {
 
-    public static User toUser(NewUserDto newUserDto) {
-        User user = new User();
-        user.setName(newUserDto.getName());
-        user.setEmail(newUserDto.getEmail());
-        return user;
-    }
+@Mapper(componentModel = "spring")
+public interface UserMapper {
 
-    public static UserDto toUserDto(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setName(user.getName());
-        userDto.setEmail(user.getEmail());
-        return userDto;
-    }
+    UserDto toDto(User user);
 
-    public static void updateUserFromDto(User user, UpdateUserDto updateUserDto) {
-        if (updateUserDto.getName() != null) {
-            user.setName(updateUserDto.getName());
-        }
-        if (updateUserDto.getEmail() != null) {
-            user.setEmail(updateUserDto.getEmail());
-        }
-    }
+    @Mapping(target = "id", ignore = true)
+    User toEntity(NewUserDto newUserDto);
 
-    public static User fromDto(UserDto userDto) {
-        if (userDto == null) {
-            return null;
-        }
-        User user = new User();
-        user.setId(userDto.getId());
-        user.setName(userDto.getName());
-        user.setEmail(userDto.getEmail());
-        return user;
-    }
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateUserFromDto(UpdateUserDto updateUserDto, @MappingTarget User user);
 }
