@@ -80,14 +80,14 @@ public class CommentRepositoryTest {
         entityManager.persistAndFlush(author);
 
         Item item = new Item();
-        item.setName("Test Item");
-        item.setDescription("Test Description");
+        item.setName("Тест Item");
+        item.setDescription("Тест описания");
         item.setAvailable(true);
-        item.setOwner(author);  // Добавлено: установите владельца
+        item.setOwner(author);
         entityManager.persistAndFlush(item);
 
         Comment comment = new Comment();
-        comment.setText("New Comment");
+        comment.setText("Новый комментарий");
         comment.setItem(item);
         comment.setAuthor(author);
         comment.setCreated(testCreated1);
@@ -96,33 +96,33 @@ public class CommentRepositoryTest {
         entityManager.flush();
 
         assertThat(saved.getId()).isNotNull();
-        assertThat(saved.getText()).isEqualTo("New Comment");
+        assertThat(saved.getText()).isEqualTo("Новый комментарий");
         assertThat(saved.getItem().getId()).isEqualTo(item.getId());
         assertThat(saved.getAuthor().getId()).isEqualTo(author.getId());
         assertThat(saved.getCreated()).isEqualTo(testCreated1);
 
         Comment found = commentRepository.findById(saved.getId()).orElse(null);
         assertThat(found).isNotNull();
-        assertThat(found.getText()).isEqualTo("New Comment");
+        assertThat(found.getText()).isEqualTo("Новый комментарий");
     }
 
     @Test
     @Transactional
     void deleteComment_ShouldRemoveComment() {
         User author = new User();
-        author.setName("Test Author");
+        author.setName("Тест автора");
         author.setEmail("author@example.com");
         entityManager.persistAndFlush(author);
 
         Item item = new Item();
-        item.setName("Test Item");
-        item.setDescription("Test Description");
+        item.setName("Тест Item");
+        item.setDescription("Тест описания");
         item.setAvailable(true);
-        item.setOwner(author);  // Добавлено
+        item.setOwner(author);
         entityManager.persistAndFlush(item);
 
         Comment comment = new Comment();
-        comment.setText("Comment to Delete");
+        comment.setText("Комментарий удален");
         comment.setItem(item);
         comment.setAuthor(author);
         comment.setCreated(testCreated1);

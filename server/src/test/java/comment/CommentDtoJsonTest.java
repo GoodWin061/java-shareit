@@ -11,7 +11,6 @@ import ru.practicum.shareit.comment.dto.CommentDto;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @JsonTest
 @ContextConfiguration(classes = ShareItServer.class)
@@ -31,7 +30,7 @@ public class CommentDtoJsonTest {
         assertThat(json).contains("\"id\":1");
         assertThat(json).contains("\"text\":\"Test Comment Text\"");
         assertThat(json).contains("\"authorName\":\"Test Author\"");
-        assertThat(json).contains("\"created\":\"2023-10-01T12:00:00\""); // Формат yyyy-MM-dd'T'HH:mm:ss
+        assertThat(json).contains("\"created\":\"2023-10-01T12:00:00\"");
 
         CommentDto deserialized = objectMapper.readValue(json, CommentDto.class);
         assertThat(deserialized.getId()).isEqualTo(1L);
@@ -46,9 +45,8 @@ public class CommentDtoJsonTest {
 
         CommentDto deserialized = objectMapper.readValue(jsonWithEmptyText, CommentDto.class);
 
-        // Проверяем, что десериализация прошла успешно, но валидация @NotBlank будет в контроллере
         assertThat(deserialized.getId()).isEqualTo(1L);
-        assertThat(deserialized.getText()).isEmpty(); // Пустая строка
+        assertThat(deserialized.getText()).isEmpty();
         assertThat(deserialized.getAuthorName()).isEqualTo("Test Author");
         assertThat(deserialized.getCreated()).isEqualTo(testCreated);
     }

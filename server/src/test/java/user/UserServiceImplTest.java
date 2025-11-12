@@ -46,13 +46,13 @@ public class UserServiceImplTest {
     void setUp() {
         user = new User();
         user.setId(1L);
-        user.setName("Test User");
+        user.setName("Тест пользователя");
         user.setEmail("test@example.com");
 
-        userDto = new UserDto(1L, "Test User", "test@example.com");
+        userDto = new UserDto(1L, "Тест пользователя", "test@example.com");
 
         newUserDto = new NewUserDto();
-        newUserDto.setName("New User");
+        newUserDto.setName("Новый пользователь");
         newUserDto.setEmail("new@example.com");
 
         updateUserDto = new UpdateUserDto();
@@ -176,7 +176,7 @@ public class UserServiceImplTest {
 
         assertEquals(userDto, result);
         verify(userRepository).findById(1L);
-        verify(userRepository, never()).existsByEmail(anyString()); // Не должен проверять, если email не изменился
+        verify(userRepository, never()).existsByEmail(anyString());
         verify(userRepository).save(user);
     }
 

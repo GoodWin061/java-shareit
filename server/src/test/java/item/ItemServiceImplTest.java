@@ -70,33 +70,33 @@ public class ItemServiceImplTest {
     void setUp() {
         user = new User();
         user.setId(1L);
-        user.setName("Test User");
+        user.setName("Тест пользователя");
 
         item = new Item();
         item.setId(1L);
-        item.setName("Test Item");
-        item.setDescription("Test Description");
+        item.setName("Тест Item");
+        item.setDescription("Тест описания");
         item.setAvailable(true);
         item.setOwner(user);
 
         itemDto = new ItemDto();
         itemDto.setId(1L);
-        itemDto.setName("Test Item");
-        itemDto.setDescription("Test Description");
+        itemDto.setName("Тест Item");
+        itemDto.setDescription("Тест описания");
         itemDto.setAvailable(true);
 
         itemWithBookingsDto = new ItemWithBookingsDto();
         itemWithBookingsDto.setId(1L);
-        itemWithBookingsDto.setName("Test Item");
+        itemWithBookingsDto.setName("Тест Item");
         itemWithBookingsDto.setComments(Collections.emptyList());
 
         comment = new Comment();
         comment.setId(1L);
-        comment.setText("Test Comment");
+        comment.setText("Тест комментария");
 
         commentDto = new CommentDto();
         commentDto.setId(1L);
-        commentDto.setText("Test Comment");
+        commentDto.setText("Тест комментария");
 
         booking = new Booking();
         booking.setId(1L);
@@ -292,7 +292,6 @@ public class ItemServiceImplTest {
     void addComment_ShouldThrowValidationException_WhenNoBookings() {
         when(itemRepository.findById(1L)).thenReturn(Optional.of(item));
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        // Исправление: все аргументы — матчеры
         when(bookingRepository.findByItemIdAndBookerIdAndEndBeforeAndStatus(
                 eq(1L), eq(1L), any(LocalDateTime.class), eq(BookingStatus.APPROVED)))
                 .thenReturn(Collections.emptyList());

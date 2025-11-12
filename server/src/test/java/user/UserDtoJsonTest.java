@@ -29,6 +29,6 @@ public class UserDtoJsonTest {
 
         UserDto deserialized = objectMapper.readValue(json, UserDto.class);
         assertThat(deserialized.getId()).isEqualTo(1L);
-        assertThat(deserialized.getName()).isEqualTo("Test User");
+        assertThat(deserialized.getName()).isEqualTo("Тест пользователя");
     }
 }

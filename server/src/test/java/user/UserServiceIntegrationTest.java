@@ -23,12 +23,12 @@ public class UserServiceIntegrationTest {
     @Test
     void testAddNewUser() {
         NewUserDto dto = new NewUserDto();
-        dto.setName("Test User");
+        dto.setName("Тест пользователя");
         dto.setEmail("test@example.com");
 
         UserDto result = userService.addNewUser(dto);
 
-        assertThat(result.getName()).isEqualTo("Test User");
+        assertThat(result.getName()).isEqualTo("Тест пользователя");
         assertThat(result.getEmail()).isEqualTo("test@example.com");
         assertThat(result.getId()).isNotNull();
     }

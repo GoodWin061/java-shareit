@@ -19,7 +19,7 @@ public class ItemDtoJsonTest {
 
     @Test
     void testItemDtoSerialization() throws Exception {
-        ItemDto dto = new ItemDto(1L, "Test Item", "Test Description", true, 1L);
+        ItemDto dto = new ItemDto(1L, "Тест Item", "Тест описания", true, 1L);
 
         String json = objectMapper.writeValueAsString(dto);
 
@@ -29,7 +29,7 @@ public class ItemDtoJsonTest {
 
         ItemDto deserialized = objectMapper.readValue(json, ItemDto.class);
         assertThat(deserialized.getId()).isEqualTo(1L);
-        assertThat(deserialized.getName()).isEqualTo("Test Item");
+        assertThat(deserialized.getName()).isEqualTo("Тест Item");
         assertThat(deserialized.getAvailable()).isTrue();
     }
 }

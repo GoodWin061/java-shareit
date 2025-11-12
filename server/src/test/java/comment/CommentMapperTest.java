@@ -15,10 +15,9 @@ import ru.practicum.shareit.user.model.User;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest(classes = ShareItServer.class)
-@ContextConfiguration(classes = ShareItServer.class) // Для инжекта mapper
+@ContextConfiguration(classes = ShareItServer.class)
 public class CommentMapperTest {
 
     @Autowired
@@ -34,20 +33,20 @@ public class CommentMapperTest {
     void setUp() {
         author = new User();
         author.setId(1L);
-        author.setName("Test Author");
+        author.setName("Тест автора");
 
         item = new Item();
         item.setId(1L);
-        item.setName("Test Item");
+        item.setName("Тест Item");
 
         comment = new Comment();
         comment.setId(1L);
-        comment.setText("Test Text");
+        comment.setText("Тест текста");
         comment.setItem(item);
         comment.setAuthor(author);
         comment.setCreated(testCreated);
 
-        commentDto = new CommentDto(1L, "Test Text", "Test Author", testCreated);
+        commentDto = new CommentDto(1L, "Тест текста", "Тест автора", testCreated);
     }
 
     @Test
@@ -55,8 +54,8 @@ public class CommentMapperTest {
         CommentDto result = commentMapper.toCommentDto(comment);
 
         assertThat(result.getId()).isEqualTo(1L);
-        assertThat(result.getText()).isEqualTo("Test Text");
-        assertThat(result.getAuthorName()).isEqualTo("Test Author"); // Из author.name
+        assertThat(result.getText()).isEqualTo("Тест текста");
+        assertThat(result.getAuthorName()).isEqualTo("Тест автора");
         assertThat(result.getCreated()).isEqualTo(testCreated);
     }
 
@@ -66,21 +65,21 @@ public class CommentMapperTest {
 
         CommentDto result = commentMapper.toCommentDto(comment);
 
-        assertThat(result.getAuthorName()).isNull(); // Не бросает ошибку
-        assertThat(result.getText()).isEqualTo("Test Text");
+        assertThat(result.getAuthorName()).isNull();
+        assertThat(result.getText()).isEqualTo("Тест текста");
     }
 
     @Test
     void toComment_ShouldMapDtoToCommentWithCurrentTimeIfNull() {
-        commentDto.setCreated(null); // null created
+        commentDto.setCreated(null);
 
         Comment result = commentMapper.toComment(commentDto, item, author);
 
         assertThat(result.getId()).isEqualTo(1L);
-        assertThat(result.getText()).isEqualTo("Test Text");
+        assertThat(result.getText()).isEqualTo("Тест текста");
         assertThat(result.getItem()).isEqualTo(item);
         assertThat(result.getAuthor()).isEqualTo(author);
-        assertThat(result.getCreated()).isNotNull(); // Текущее время
+        assertThat(result.getCreated()).isNotNull();
         assertThat(result.getCreated()).isAfterOrEqualTo(LocalDateTime.now().minusSeconds(1));
     }
 
@@ -89,34 +88,34 @@ public class CommentMapperTest {
         Comment result = commentMapper.toComment(commentDto, item, author);
 
         assertThat(result.getId()).isEqualTo(1L);
-        assertThat(result.getText()).isEqualTo("Test Text");
+        assertThat(result.getText()).isEqualTo("Тест текста");
         assertThat(result.getItem()).isEqualTo(item);
         assertThat(result.getAuthor()).isEqualTo(author);
-        assertThat(result.getCreated()).isEqualTo(testCreated); // Сохранено из DTO
+        assertThat(result.getCreated()).isEqualTo(testCreated);
     }
 
     @Test
     void toCommentFromCreate_ShouldMapDtoToCommentWithCurrentTimeAndIgnoreId() {
-        CommentDto createDto = new CommentDto(); // Без ID
-        createDto.setText("New Comment Text");
+        CommentDto createDto = new CommentDto();
+        createDto.setText("Новый комментарий");
 
         Comment result = commentMapper.toCommentFromCreate(createDto, item, author);
 
-        assertThat(result.getId()).isNull(); // Игнорируется
-        assertThat(result.getText()).isEqualTo("New Comment Text");
+        assertThat(result.getId()).isNull();
+        assertThat(result.getText()).isEqualTo("Новый комментарий");
         assertThat(result.getItem()).isEqualTo(item);
         assertThat(result.getAuthor()).isEqualTo(author);
-        assertThat(result.getCreated()).isNotNull(); // Текущее время
+        assertThat(result.getCreated()).isNotNull();
         assertThat(result.getCreated()).isAfterOrEqualTo(LocalDateTime.now().minusSeconds(1));
     }
 
     @Test
     void toCommentFromCreate_WithNullText_ShouldMapButValidationInService() {
         CommentDto createDto = new CommentDto();
-        createDto.setText(""); // Пустой, но mapper не валидирует
+        createDto.setText("");
 
         Comment result = commentMapper.toCommentFromCreate(createDto, item, author);
 
-        assertThat(result.getText()).isEqualTo(""); // Mapper пропустит, валидация в сервисе/контроллере
+        assertThat(result.getText()).isEqualTo("");
     }
 }

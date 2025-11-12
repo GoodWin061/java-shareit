@@ -155,7 +155,6 @@ class BookingServiceTest {
         verify(userRepository, never()).findById(anyLong());
     }
 
-    // Тесты для approveBooking
     @Test
     void approveBooking_success_approved() {
         when(bookingRepository.findById(1L)).thenReturn(Optional.of(booking));
@@ -211,7 +210,6 @@ class BookingServiceTest {
         verify(bookingRepository, never()).save(any());
     }
 
-    // Тесты для getBookingById
     @Test
     void getBookingById_success_booker() {
         when(bookingRepository.findById(1L)).thenReturn(Optional.of(booking));
@@ -250,7 +248,6 @@ class BookingServiceTest {
         verify(bookingRepository).findById(1L);
     }
 
-    // Тесты для getAllBookingsByBooker
     @Test
     void getAllBookingsByBooker_all() {
         when(userRepository.findById(2L)).thenReturn(Optional.of(booker));
@@ -343,7 +340,6 @@ class BookingServiceTest {
         verify(bookingRepository, never()).findByBookerId(anyLong(), any());
     }
 
-    // Тесты для getAllBookingsByOwner
     @Test
     void getAllBookingsByOwner_all() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(owner));

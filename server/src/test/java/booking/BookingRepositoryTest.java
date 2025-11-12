@@ -2,7 +2,6 @@ package booking;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -56,6 +55,6 @@ class BookingRepositoryTest {
     void findByItemOwnerIdAndEndBefore_returnsPast() {
         List<Booking> bookings = bookingRepository.findByItemOwnerIdAndEndBefore(1L, LocalDateTime.now(), null);
 
-        assertEquals(1, bookings.size());  // ID=2 is in the past
+        assertEquals(1, bookings.size());
     }
 }
