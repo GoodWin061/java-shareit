@@ -19,12 +19,12 @@ public class UserDtoJsonTest {
 
     @Test
     void testUserDtoSerialization() throws Exception {
-        UserDto dto = new UserDto(1L, "Test User", "test@example.com");
+        UserDto dto = new UserDto(1L, "Тест пользователя", "test@example.com");
 
         String json = objectMapper.writeValueAsString(dto);
 
         assertThat(json).contains("\"id\":1");
-        assertThat(json).contains("\"name\":\"Test User\"");
+        assertThat(json).contains("\"name\":\"Тест пользователя\"");
         assertThat(json).contains("\"email\":\"test@example.com\"");
 
         UserDto deserialized = objectMapper.readValue(json, UserDto.class);
