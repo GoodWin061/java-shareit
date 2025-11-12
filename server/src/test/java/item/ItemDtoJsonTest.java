@@ -24,7 +24,7 @@ public class ItemDtoJsonTest {
         String json = objectMapper.writeValueAsString(dto);
 
         assertThat(json).contains("\"id\":1");
-        assertThat(json).contains("\"name\":\"Test Item\"");
+        assertThat(json).contains("\"name\":\"Тест Item\"");
         assertThat(json).contains("\"available\":true");
 
         ItemDto deserialized = objectMapper.readValue(json, ItemDto.class);
