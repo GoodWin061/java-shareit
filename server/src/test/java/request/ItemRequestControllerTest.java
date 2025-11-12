@@ -46,7 +46,7 @@ public class ItemRequestControllerTest {
     void setUp() {
         requestDto = new ItemRequestDto();
         requestDto.setId(requestId);
-        requestDto.setDescription("Test request description");
+        requestDto.setDescription("Описание тестового запроса");
         requestDto.setRequestorId(userId);
         requestDto.setCreated(LocalDateTime.now());
         requestDto.setItems(List.of());
