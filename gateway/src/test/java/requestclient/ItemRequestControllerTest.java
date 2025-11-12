@@ -1,4 +1,4 @@
-package requestClient;
+package requestclient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
