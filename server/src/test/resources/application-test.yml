@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    open-in-view: false  # Отключает Open Session in View для тестов
+    hibernate:
+      ddl-auto: create-drop  # Создаёт/удаляет таблицы в H2 перед/после тестов
+    show-sql: true  # Показывает SQL-запросы в логах (для отладки)
+  h2:
+    console:
+      enabled: true  # Включает H2-консоль для отладки БД: http://localhost:8080/h2-console
+  datasource:
+    url: jdbc:h2:mem:testdb  # In-memory H2 для тестов
+    driver-class-name: org.h2.Driver
+logging:
+  level:
+    org.hibernate.SQL: DEBUG  # Логирует SQL-запросы
+    org.springframework.test: INFO  # Уменьшает шум от Spring Test
